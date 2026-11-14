@@ -43,7 +43,7 @@ export const FinanceCalculator: React.FC<FinanceCalculatorProps> = ({
   };
 
   const generateSummaryText = () => {
-    return `# РАСЧЕТ ПЛАНА ПО ДЕНЬГАМ (МЕТОДОЛОГИЯ IVANOS)
+    return `# РАСЧЕТ ПЛАНА ПО ДЕНЬГАМ (МЕТОДОЛОГИЯ MADNIKE OS)
 
 ## 1. Цель и ключевые параметры
 - Цель на квартал (12 недель): ${formatRub(goalRub)}
@@ -92,7 +92,7 @@ export const FinanceCalculator: React.FC<FinanceCalculatorProps> = ({
         <div className="relative z-10 max-w-2xl">
           <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Методология IvanOS: Часть 2
+            Методология MADNIKE OS: Часть 2
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Калькулятор «План от денег назад»

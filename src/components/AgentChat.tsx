@@ -15,6 +15,7 @@ import {
   Lightbulb,
 } from 'lucide-react';
 import { ChatMessage } from '../types/ivanos.ts';
+import { useDraggableScroll } from '../hooks/useDraggableScroll.ts';
 
 interface AgentChatProps {
   messages: ChatMessage[];
@@ -29,6 +30,9 @@ interface AgentChatProps {
 const QUICK_ACTIONS = [
   { label: '☀️ Старт сессии', prompt: 'Старт сессии' },
   { label: '🌙 Заверши сессию', prompt: 'Заверши сессию' },
+  { label: '📅 Контент-план (Хант)', prompt: 'Сгенерируй детальный контент-план на 7 дней по лестнице Ханта для Ice Studio.' },
+  { label: '🎬 Сценарий Рилс (9:16)', prompt: 'Напиши сценарий 30-секундного Рилса с раскадровкой, кинетическими титрами и озвучкой для ElevenLabs.' },
+  { label: '📢 Мультипостинг (ТГ/ВК/Дзен)', prompt: 'Подготовь пост для мультипостинга в Telegram, ВК, Дзен и Нельзяграм с разметкой под каждый канал.' },
   { label: '🧭 Запусти распаковку', prompt: 'Запусти распаковку' },
   { label: '💰 План по деньгам', prompt: 'Рассчитай план по деньгам от цели 1 000 000 ₽ на 12 недель назад: декомпозиция на 3 месяца и 3 дня смены.' },
   { label: '👥 Профиль ЦА (Хант)', prompt: 'Собери детальный профиль ЦА с 4 блоками (ситуация, боли, результат, цитаты) и 5 уровнями осознанности по лестнице Ханта.' },
@@ -49,6 +53,7 @@ export const AgentChat: React.FC<AgentChatProps> = ({
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const quickActionsScrollRef = useDraggableScroll<HTMLDivElement>();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -114,8 +119,11 @@ export const AgentChat: React.FC<AgentChatProps> = ({
         </div>
       </div>
 
-      {/* Quick Action Chips */}
-      <div className="px-4 py-2 border-b border-zinc-800/80 bg-zinc-900/40 overflow-x-auto no-scrollbar">
+      {/* Quick Action Chips (Mouse Draggable) */}
+      <div
+        ref={quickActionsScrollRef}
+        className="px-4 py-2 border-b border-zinc-800/80 bg-zinc-900/40 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none"
+      >
         <div className="flex items-center gap-1.5 min-w-max">
           <span className="text-[11px] font-mono text-zinc-500 mr-1 flex items-center gap-1">
             <Lightbulb className="w-3 h-3 text-amber-500" />
@@ -143,10 +151,10 @@ export const AgentChat: React.FC<AgentChatProps> = ({
             </div>
             <div>
               <h2 className="text-lg font-bold text-white tracking-tight">
-                IvanOS Agent готов к работе
+                MADNIKE OS Agent готов к работе
               </h2>
               <p className="text-sm text-zinc-400 mt-1 leading-relaxed">
-                Персональный координатор и стратегический партнер по методологии ИИ-Лагеря Ивана Сергеева.
+                Персональный координатор и стратегический партнер проектов Ice Studio (Никита Меньшаев) по системе MADNIKE OS.
                 Память проекта и 4 слоя активны.
               </p>
             </div>
@@ -195,7 +203,7 @@ export const AgentChat: React.FC<AgentChatProps> = ({
 
                 <div className={`space-y-1.5 max-w-[85%] sm:max-w-[78%]`}>
                   <div className="flex items-center gap-2 text-[11px] text-zinc-500 px-1 font-mono">
-                    <span>{isUser ? 'Вы' : 'IvanOS Agent'}</span>
+                    <span>{isUser ? 'Вы' : 'MADNIKE OS Agent'}</span>
                     <span>•</span>
                     <span>{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     {isStartSessionResponse && (
@@ -297,7 +305,7 @@ export const AgentChat: React.FC<AgentChatProps> = ({
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '150ms' }} />
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
-              <span>IvanOS Agent выполняет расчет и сборку артефакта...</span>
+              <span>MADNIKE OS Agent выполняет расчет и сборку артефакта...</span>
             </div>
           </div>
         )}

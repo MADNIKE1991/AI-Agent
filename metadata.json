@@ -1,6 +1,8 @@
 {
-  "name": "IvanOS Agent - Google AI Studio Complete Edition",
+  "name": "MAD NIKE OS Agent - Google AI Studio Complete Edition",
   "description": "Персональный ИИ-агент, стратегический партнер и координатор проекта по методологии IvanOS с 4 слоями памяти, ритуалами и распаковкой бизнеса.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

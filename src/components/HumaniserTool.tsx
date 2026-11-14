@@ -77,7 +77,7 @@ export const HumaniserTool: React.FC<HumaniserToolProps> = ({
         <div className="relative z-10 max-w-2xl">
           <div className="flex items-center gap-2 text-xs font-mono text-purple-400 mb-2">
             <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-            Скинни-скилл 6.1 IvanOS
+            Скинни-скилл 6.1 MADNIKE OS
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Humaniser: Очистка от ИИ-мусора
@@ -95,7 +95,7 @@ export const HumaniserTool: React.FC<HumaniserToolProps> = ({
             className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white disabled:opacity-50 transition-colors shadow-lg shadow-purple-600/20"
           >
             <Sparkles className={`w-4 h-4 ${isProcessing ? 'animate-spin' : ''}`} />
-            <span>{isProcessing ? 'Очищаю текст...' : 'Очистить по стандарту IvanOS'}</span>
+            <span>{isProcessing ? 'Очищаю текст...' : 'Очистить по стандарту MADNIKE OS'}</span>
           </button>
 
           <button
@@ -183,7 +183,7 @@ export const HumaniserTool: React.FC<HumaniserToolProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono font-semibold text-purple-300 flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-purple-400" />
-              Очищенный текст (стандарт IvanOS)
+              Очищенный текст (стандарт MADNIKE OS)
             </span>
             {outputText && (
               <span className="text-[11px] font-mono text-emerald-400">
@@ -198,7 +198,7 @@ export const HumaniserTool: React.FC<HumaniserToolProps> = ({
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-zinc-600 space-y-2">
                 <Sparkles className="w-8 h-8 opacity-40 text-purple-500" />
-                <span className="text-xs">Нажми «Очистить по стандарту IvanOS» выше</span>
+                <span className="text-xs">Нажми «Очистить по стандарту MADNIKE OS» выше</span>
               </div>
             )}
           </div>

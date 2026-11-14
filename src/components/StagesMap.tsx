@@ -33,10 +33,10 @@ export const StagesMap: React.FC<StagesMapProps> = ({ onExecuteStageWithAgent })
         <div className="relative z-10 max-w-2xl">
           <div className="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            Методология ИИ-Лагеря Ивана Сергеева
+            Методология запуска и масштабирования MADNIKE OS
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Карта 8 Этапов Запуска IvanOS
+            Карта 8 Этапов Запуска MADNIKE OS
           </h1>
           <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
             Полный цикл создания, упаковки, запуска и масштабирования продукта: от распаковки хаоса до
@@ -224,7 +224,7 @@ export const StagesMap: React.FC<StagesMapProps> = ({ onExecuteStageWithAgent })
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-zinc-950 transition-colors shadow-lg shadow-amber-500/20"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Передать задачу Агенту IvanOS в чат</span>
+              <span>Передать задачу Агенту MADNIKE OS в чат</span>
             </button>
           </div>
         </div>

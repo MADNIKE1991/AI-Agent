@@ -61,7 +61,7 @@ export const UnpackWizard: React.FC<UnpackWizardProps> = ({
             Магистральный сценарий распаковки бизнеса
           </h1>
           <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
-            Фундаментальный опрос из 7 ключевых блоков по методологии IvanOS. Распаковывает хаос в единый
+            Фундаментальный опрос из 7 ключевых блоков по методологии MADNIKE OS. Распаковывает хаос в единый
             паспорт проекта, формирует золотой сегмент ЦА и готовит расчет от денег назад.
           </p>
         </div>
@@ -172,7 +172,7 @@ export const UnpackWizard: React.FC<UnpackWizardProps> = ({
           <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800/80 text-xs text-zinc-300 space-y-2">
             <div className="flex items-center gap-2 text-amber-400 font-semibold font-mono text-[11px]">
               <HelpCircle className="w-3.5 h-3.5" />
-              Вопрос от агента IvanOS:
+              Вопрос от агента MADNIKE OS:
             </div>
             <p className="text-sm text-zinc-200 font-sans leading-relaxed">
               {currentBlock.promptQuestion}

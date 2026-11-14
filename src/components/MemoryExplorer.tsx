@@ -119,7 +119,7 @@ export const MemoryExplorer: React.FC<MemoryExplorerProps> = ({
         <div className="relative z-10 max-w-2xl">
           <div className="flex items-center gap-2 text-xs font-mono text-blue-400 mb-2">
             <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-            Второй мозг IvanOS
+            Второй мозг MADNIKE OS
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Четыре Слоя Памяти Проекта
@@ -428,7 +428,7 @@ export const MemoryExplorer: React.FC<MemoryExplorerProps> = ({
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Brain className="w-4 h-4 text-purple-400" />
-                12-шаговый Deep Research IvanOS
+                12-шаговый Deep Research MADNIKE OS
               </h3>
               <p className="text-xs text-zinc-400">
                 Регламент глубокого исследования с обязательными гейтами (остановками для согласования с экспертом).

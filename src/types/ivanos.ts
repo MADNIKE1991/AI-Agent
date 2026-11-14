@@ -95,3 +95,163 @@ export interface AICampStage {
   promptTemplate: string;
   isSpecial?: boolean;
 }
+
+// 12-Step Deep Research Types (Section 6.2)
+export type ResearchStepStatus = 'pending' | 'in_progress' | 'gate_pending' | 'completed';
+
+export interface FactOpinionItem {
+  id: string;
+  type: 'fact' | 'opinion';
+  content: string;
+  source: string;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+export interface DeepResearchStep {
+  id: number;
+  name: string;
+  subtitle: string;
+  description: string;
+  isGate?: boolean;
+  status: ResearchStepStatus;
+  userNotes: string;
+  findings: string;
+  gateCriteria?: string[];
+  gateApproved?: boolean;
+}
+
+export interface DeepResearchProject {
+  id: string;
+  title: string;
+  niche: string;
+  question: string;
+  hypothesis: string;
+  currentStep: number;
+  steps: DeepResearchStep[];
+  factsAndOpinions: FactOpinionItem[];
+  finalOutputReport: string;
+  updatedAt: string;
+}
+
+// Content Factory (Контент-завод) Types
+export type HuntLevel = 0 | 1 | 2 | 3 | 4;
+
+export interface ContentPlanItem {
+  id: string;
+  dayIndex: number;
+  dayName: string;
+  dateStr: string;
+  huntLevel: HuntLevel;
+  huntStageName: string;
+  format: 'reel' | 'post' | 'carousel' | 'case' | 'offer';
+  formatTitle: string;
+  hook: string;
+  coreIdea: string;
+  ctaText: string;
+  codeWord: string;
+  channels: ('tg' | 'vk' | 'dzen' | 'ig')[];
+  status: 'planned' | 'drafted' | 'published';
+}
+
+export interface ReelScene {
+  id: number;
+  timeRange: string;
+  durationSec: number;
+  visualType: 'screencast' | 'talking_head' | 'b_roll' | 'split' | 'graphic' | 'demo';
+  visualDesc: string;
+  subtitles: string;
+  highlightWords: string[];
+  voiceoverText: string;
+  sfx: string;
+}
+
+export interface ReelProject {
+  id: string;
+  title: string;
+  formatType: string;
+  targetDurationSec: number;
+  hookHeadline: string;
+  scenes: ReelScene[];
+  ctaCodeWord: string;
+  audioPrompt: string;
+  aspectRatio: '9:16';
+}
+
+export interface MultiPostItem {
+  id: string;
+  topic: string;
+  createdAt: string;
+  status: {
+    telegram: 'draft' | 'sent' | 'failed';
+    vk: 'draft' | 'copied';
+    dzen: 'draft' | 'copied';
+    instagram: 'draft' | 'copied';
+  };
+  versions: {
+    telegram: string;
+    vk: string;
+    dzen: string;
+    instagram: string;
+  };
+  telegramConfig?: {
+    botToken?: string;
+    chatId?: string;
+    lastSentAt?: string;
+  };
+}
+
+export interface YouTubeSlide {
+  id: number;
+  slideNumber: number;
+  timeRange: string;
+  durationSec: number;
+  type: 'pain' | 'code' | 'diagram' | 'demo' | 'proof' | 'cta';
+  title: string;
+  bulletPoints: string[];
+  codeSnippet?: string;
+  interfaceBadge?: string;
+  voiceoverText: string;
+  onScreenText: string;
+}
+
+export interface YouTubeProject {
+  id: string;
+  title: string;
+  targetDuration: 'shorts_60s' | 'video_180s';
+  huntStage: string;
+  hook: string;
+  slides: YouTubeSlide[];
+  seoDescription: string;
+  landingUrl: string;
+  tags: string[];
+}
+
+export interface VideoTemplate {
+  id: string;
+  name: string;
+  category: string;
+  themeColor: 'emerald' | 'amber' | 'purple' | 'sky';
+  description: string;
+  previewAnimation: string;
+  recommendedHook: string;
+}
+
+export interface AntiBanStatus {
+  dailyPostsCount: number;
+  dailyLimit: number;
+  remainingPostsToday: number;
+  lastPostTime: string;
+  elapsedMinutesSinceLastPost: number;
+  randomizedIntervalSetting: string;
+  isCooldownActive: boolean;
+  isLimitReached: boolean;
+  isSafeToPost: boolean;
+  recommendedNextPostInMinutes: number;
+  history: {
+    id: string;
+    channel: 'telegram' | 'vk' | 'dzen' | 'instagram';
+    title: string;
+    timestamp: string;
+    status: 'success' | 'queued' | 'failed';
+  }[];
+}

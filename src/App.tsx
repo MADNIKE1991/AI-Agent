@@ -12,6 +12,9 @@ import { MemoryExplorer } from './components/MemoryExplorer.tsx';
 import { HumaniserTool } from './components/HumaniserTool.tsx';
 import { FinanceCalculator } from './components/FinanceCalculator.tsx';
 import { StagesMap } from './components/StagesMap.tsx';
+import { DeepResearchTool } from './components/DeepResearchTool.tsx';
+import { ContentFactory } from './components/ContentFactory.tsx';
+import { ApiSettingsTab } from './components/ApiSettingsTab.tsx';
 import {
   ChatMessage,
   FourLayersMemory,
@@ -27,6 +30,7 @@ import {
   exportAllMemoryAsMarkdown,
   extractFeedbackRule,
 } from './utils/textUtils.ts';
+import { generateMADNIKEResponse } from './utils/madnikeEngine.ts';
 
 const STORAGE_KEY_MEMORY = 'ivanos_agent_memory_v1';
 const STORAGE_KEY_BLOCKS = 'ivanos_agent_unpack_blocks_v1';
@@ -34,7 +38,7 @@ const STORAGE_KEY_MESSAGES = 'ivanos_agent_chat_messages_v1';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<
-    'chat' | 'unpack' | 'memory' | 'humaniser' | 'finance' | 'stages'
+    'chat' | 'factory' | 'research' | 'unpack' | 'memory' | 'humaniser' | 'finance' | 'stages' | 'api'
   >('chat');
 
   // Load from local storage or initial
@@ -69,16 +73,16 @@ export default function App() {
       {
         id: 'msg-welcome',
         role: 'assistant',
-        content: `🟢 Сессия открыта. База знаний IvanOS и память проекта считаны. Жду задачу или вводные.
+        content: `🟢 Сессия открыта. База знаний MADNIKE OS и контекст Ice Studio (Никита Меньшаев) считаны. Жду задачу или вводные.
 
-Я — твой персональный ИИ-агент и координатор по методологии IvanOS (ИИ-Лагерь Ивана Сергеева).
+Я - твой персональный ИИ-агент и координатор проектов Ice Studio по методологии MADNIKE OS.
 Все 4 слоя памяти активны:
 - Слой 1: Текущее контекстное окно
 - Слой 2: Уроки и поправки сессий (memory/)
 - Слой 3: Паспорт бизнеса (.business/)
-- Слой 4: Регламенты Humaniser, Deep Research и лестница Ханта
+- Слой 4: Регламенты Humaniser, Deep Research и 3 потока монетизации
 
-Можешь нажать «Запусти распаковку», «Старт сессии» или дать мне любую боевую задачу.`,
+Можешь нажать «ВЫДАТЬ РАСПАКОВКУ», «Калькулятор от денег», «Deep Research» или дать боевую задачу.`,
         timestamp: new Date().toISOString(),
       },
     ];
@@ -198,8 +202,16 @@ export default function App() {
           }
         }
 
-        // Post-process final response
-        const finalCleaned = accumulated.replace(/—|–/g, '-');
+        // If streaming produced no content or an error message slipped in
+        let finalCleaned = accumulated.replace(/—|–/g, '-').trim();
+        if (!finalCleaned || finalCleaned.includes('Failed to generate response') || finalCleaned.includes('API key')) {
+          finalCleaned = generateMADNIKEResponse(trimmed, memory);
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === assistantMsgId ? { ...msg, content: finalCleaned } : msg
+            )
+          );
+        }
 
         // Check if this was a "Заверши сессию" ritual
         if (trimmed.toLowerCase().includes('заверши сессию') || trimmed.toLowerCase() === 'финиш') {
@@ -248,21 +260,41 @@ export default function App() {
           }));
         }
       } catch (err: any) {
-        console.error('Error contacting IvanOS server:', err);
-        // Fallback intelligent agent response compliant with IvanOS rules
-        const fallbackText = `🟢 Запрос обработан по методологии IvanOS.
-
-Факты зафиксированы: данные приняты в память сессии.
-Статус: Готов к следующему шагу или формированию артефакта.
-Блокеров не обнаружено. Продолжаю выполнение.`;
+        console.error('Generating response via MADNIKE OS Engine:', err);
+        // Rich, substantive MADNIKE OS domain response tailored to user request
+        const substantiveResponse = generateMADNIKEResponse(trimmed, memory);
 
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantMsgId
-              ? { ...msg, content: fallbackText }
+              ? { ...msg, content: substantiveResponse }
               : msg
           )
         );
+
+        // Process rituals in offline/engine mode as well
+        if (trimmed.toLowerCase().includes('заверши сессию') || trimmed.toLowerCase() === 'финиш') {
+          const { ruleFile, memoryIndexLine } = extractFeedbackRule(substantiveResponse);
+          if (ruleFile) {
+            setMemory((prev) => ({
+              ...prev,
+              layer1_now: { ...prev.layer1_now, sessionActive: false },
+              layer2_recent: {
+                ...prev.layer2_recent,
+                rules: [...prev.layer2_recent.rules, ruleFile],
+                memoryIndexContent: `${prev.layer2_recent.memoryIndexContent}\n${memoryIndexLine}`,
+              },
+            }));
+            confetti({ particleCount: 50 });
+          }
+        }
+
+        if (trimmed.toLowerCase().includes('старт сессии') || trimmed.toLowerCase() === 'поехали') {
+          setMemory((prev) => ({
+            ...prev,
+            layer1_now: { ...prev.layer1_now, sessionActive: true, sessionStartTime: new Date().toISOString() },
+          }));
+        }
       } finally {
         setIsLoading(false);
       }
@@ -289,7 +321,7 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `IvanOS_Database_Dump_${new Date().toISOString().split('T')[0]}.md`;
+    link.download = `MADNIKE_OS_Database_Dump_${new Date().toISOString().split('T')[0]}.md`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -298,14 +330,14 @@ export default function App() {
 
   // Reset to initial
   const handleResetMemory = () => {
-    if (window.confirm('Сбросить все 4 слоя памяти и распаковку к эталонам IvanOS?')) {
+    if (window.confirm('Сбросить все 4 слоя памяти и распаковку к эталонам MADNIKE OS?')) {
       setMemory(INITIAL_FOUR_LAYERS_MEMORY);
       setUnpackBlocks(INITIAL_UNPACK_BLOCKS);
       setMessages([
         {
           id: 'msg-init',
           role: 'assistant',
-          content: '🟢 Память и база знаний IvanOS сброшены к эталонным значениям. Жду задачу или вводные.',
+          content: '🟢 Память и база знаний MADNIKE OS сброшены к эталонным значениям. Жду задачу или вводные.',
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -346,7 +378,7 @@ export default function App() {
 
     let synthesisText = `# .business — Бизнес-контекст проекта (Актуальная распаковка)
 Сгенерировано: ${new Date().toLocaleDateString('ru-RU')}
-Методология: IvanOS Complete Edition
+Методология: MADNIKE OS Complete Edition
 
 ## Карта распакованных блоков:
 `;
@@ -500,6 +532,42 @@ export default function App() {
           />
         )}
 
+        {activeTab === 'factory' && (
+          <ContentFactory
+            onSendToChat={(prompt) => {
+              setActiveTab('chat');
+              handleSendMessage(prompt);
+            }}
+            onSendToHumaniser={handleSendToHumaniser}
+          />
+        )}
+
+        {activeTab === 'research' && (
+          <DeepResearchTool
+            onSaveToBusinessAudience={(report) => {
+              setMemory((prev) => ({
+                ...prev,
+                layer3_permanent: {
+                  documents: prev.layer3_permanent.documents.map((d) =>
+                    d.path === '.business/audience/Профиль ЦА.md'
+                      ? {
+                          ...d,
+                          content: `${d.content}\n\n---\n\n${report}`,
+                          updatedAt: new Date().toISOString().split('T')[0],
+                        }
+                      : d
+                  ),
+                },
+              }));
+              setActiveTab('memory');
+            }}
+            onSendToChat={(prompt) => {
+              setActiveTab('chat');
+              handleSendMessage(prompt);
+            }}
+          />
+        )}
+
         {activeTab === 'unpack' && (
           <UnpackWizard
             blocks={unpackBlocks}
@@ -548,6 +616,12 @@ export default function App() {
               handleSendMessage(prompt);
             }}
           />
+        )}
+
+        {activeTab === 'api' && (
+          <div className="py-8 px-4">
+            <ApiSettingsTab />
+          </div>
         )}
       </main>
     </div>

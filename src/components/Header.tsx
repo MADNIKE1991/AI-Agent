@@ -11,11 +11,15 @@ import {
   Calculator,
   MapPin,
   RefreshCw,
+  Search,
+  Film,
+  Key,
 } from 'lucide-react';
+import { useDraggableScroll } from '../hooks/useDraggableScroll.ts';
 
 interface HeaderProps {
-  activeTab: 'chat' | 'unpack' | 'memory' | 'humaniser' | 'finance' | 'stages';
-  setActiveTab: (tab: 'chat' | 'unpack' | 'memory' | 'humaniser' | 'finance' | 'stages') => void;
+  activeTab: 'chat' | 'factory' | 'research' | 'unpack' | 'memory' | 'humaniser' | 'finance' | 'stages' | 'api';
+  setActiveTab: (tab: 'chat' | 'factory' | 'research' | 'unpack' | 'memory' | 'humaniser' | 'finance' | 'stages' | 'api') => void;
   sessionActive: boolean;
   onStartSession: () => void;
   onFinishSession: () => void;
@@ -36,6 +40,8 @@ export const Header: React.FC<HeaderProps> = ({
   ruleCount,
   docsCount,
 }) => {
+  const navScrollRef = useDraggableScroll<HTMLElement>();
+
   return (
     <header className="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
@@ -47,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-white text-base tracking-tight">IvanOS Agent</span>
+                <span className="font-bold text-white text-base tracking-tight">MADNIKE OS Agent</span>
                 <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   Complete Edition
                 </span>
@@ -56,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <p className="text-xs text-zinc-400 hidden sm:block">
-                Стратегический координатор по методологии ИИ-Лагеря Ивана Сергеева
+                Стратегический координатор проектов Ice Studio (Никита Меньшаев)
               </p>
             </div>
           </div>
@@ -107,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={onResetMemory}
-              title="Сбросить память к заводским эталонам IvanOS"
+              title="Сбросить память к заводским эталонам MADNIKE OS"
               className="p-1.5 rounded-lg text-xs font-medium bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-700 transition-colors"
             >
               <RefreshCw className="w-3.5 h-3.5" />
@@ -115,8 +121,11 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <nav className="flex items-center gap-1 pt-2 overflow-x-auto no-scrollbar">
+        {/* Navigation Tabs (Mouse Draggable) */}
+        <nav
+          ref={navScrollRef}
+          className="flex items-center gap-1 pt-2 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none"
+        >
           <button
             onClick={() => setActiveTab('chat')}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
@@ -127,6 +136,42 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Bot className="w-4 h-4" />
             <span>Чат Агента</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('factory')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+              activeTab === 'factory'
+                ? 'bg-amber-500 text-zinc-950 font-semibold shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+            }`}
+          >
+            <Film className="w-4 h-4 text-amber-400" />
+            <span>Контент-завод</span>
+            <span
+              className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                activeTab === 'factory'
+                  ? 'bg-zinc-950 text-amber-400'
+                  : 'bg-amber-950/60 text-amber-300 border border-amber-800/40'
+              }`}
+            >
+              Хант + Рилс
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('research')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+              activeTab === 'research'
+                ? 'bg-blue-600 text-white font-semibold shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+            }`}
+          >
+            <Search className="w-4 h-4 text-blue-400" />
+            <span>Deep Research (12 шагов)</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full font-mono bg-blue-950 text-blue-300 border border-blue-800/50">
+              п. 6.2
+            </span>
           </button>
 
           <button
@@ -194,6 +239,18 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <MapPin className="w-4 h-4" />
             <span>8 Этапов Лагеря</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('api')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+              activeTab === 'api'
+                ? 'bg-emerald-600 text-white font-semibold shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+            }`}
+          >
+            <Key className="w-4 h-4 text-emerald-400" />
+            <span>Шлюзы и API</span>
           </button>
         </nav>
       </div>

@@ -34,13 +34,18 @@ export function detectCliches(text: string): {
     }
   }
 
-  // Count paragraphs with > 3 sentences
+  // Count prose paragraphs (excluding markdown headings and list blocks) with > 3 sentences
   const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   let longParagraphsCount = 0;
   for (const p of paragraphs) {
-    const sentences = p.split(/[.!?]+\s+/).filter((s) => s.trim().length > 10);
-    if (sentences.length > 3) {
-      longParagraphsCount++;
+    const lines = p.split('\n').map((l) => l.trim()).filter(Boolean);
+    const proseLines = lines.filter((l) => !/^([-*•]|\d+[.)]|#)/.test(l));
+    if (proseLines.length > 0) {
+      const proseText = proseLines.join(' ');
+      const sentences = proseText.split(/[.!?]+(?:\s+|$)/).filter((s) => s.trim().length > 10);
+      if (sentences.length > 3) {
+        longParagraphsCount++;
+      }
     }
   }
 
@@ -92,7 +97,7 @@ export function extractFeedbackRule(responseText: string): {
   const whyMatch = responseText.match(/\*\*Почему:\*\*\s*([^\n]+)/);
   const howMatch = responseText.match(/\*\*Как применять:\*\*\s*([^\n]+)/);
 
-  const rule = ruleMatch ? ruleMatch[1].trim() : 'Соблюдать стандарты IvanOS';
+  const rule = ruleMatch ? ruleMatch[1].trim() : 'Соблюдать стандарты MADNIKE OS';
   const why = whyMatch ? whyMatch[1].trim() : 'На основе уроков текущей сессии';
   const howToApply = howMatch ? howMatch[1].trim() : 'Проверять в начале каждого ответа';
 
@@ -115,7 +120,7 @@ export function extractFeedbackRule(responseText: string): {
 }
 
 export function exportAllMemoryAsMarkdown(memory: FourLayersMemory): string {
-  let doc = `# IVANOS AGENT — ПОЛНЫЙ ДАМП БАЗЫ ЗНАНИЙ И ПАМЯТИ
+  let doc = `# MADNIKE OS AGENT - ПОЛНЫЙ ДАМП БАЗЫ ЗНАНИЙ И ПАМЯТИ
 Сгенерировано: ${new Date().toLocaleString('ru-RU')}
 Версия: Google AI Studio Complete Edition
 

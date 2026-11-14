@@ -1,0 +1,38 @@
+[
+  {
+    "id": "coding-matrix",
+    "name": "Кодинг-таймлапс (Next.js / TypeScript)",
+    "category": "Инженерия и разработка",
+    "themeColor": "emerald",
+    "description": "Плотный терминал, скролл чистого кода, подсветка компиляции и сборки веб-сервисов.",
+    "previewAnimation": "matrix-code",
+    "recommendedHook": "Студия просит 400 000 ₽ за код, который пишется за 12 дней"
+  },
+  {
+    "id": "tech-minimal-abstract",
+    "name": "Минималистичная технологическая абстракция",
+    "category": "B2B и архитектура",
+    "themeColor": "amber",
+    "description": "Плавные неоновые градиенты, глубокий темный фон, элегантная сетка без отвлекающих деталей.",
+    "previewAnimation": "cyber-glow",
+    "recommendedHook": "5 фатальных ошибок архитектуры в Next.js"
+  },
+  {
+    "id": "cyber-grid-audio",
+    "name": "Кибер-сетка & FL Studio аудиоволны",
+    "category": "Мультимедиа & ИИ",
+    "themeColor": "purple",
+    "description": "Пульсирующий спектральный эквалайзер, неоновые волны и атмосфера кинематографичного звука.",
+    "previewAnimation": "sound-wave",
+    "recommendedHook": "Как собрать озвучку аудиоспектакля за 15 минут через FL Studio + ElevenLabs"
+  },
+  {
+    "id": "interface-screencast",
+    "name": "Интерфейс расширения Website to PDF",
+    "category": "Микропродукты & Утилиты",
+    "themeColor": "sky",
+    "description": "Динамичный сплит браузера: экспорт Flexbox-сеток, сохранение стилей и плашка 54 языка.",
+    "previewAnimation": "ui-demo",
+    "recommendedHook": "Печать браузера превращает дашборды в кашу? Решение в 1 клик"
+  }
+]
